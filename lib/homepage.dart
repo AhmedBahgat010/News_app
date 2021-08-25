@@ -1,10 +1,12 @@
-import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:untitled/container/screen1/containernews.dart';
 import 'package:untitled/container/screen1/newsmenu.dart';
+import 'package:untitled/services/datanews.dart';
 import 'package:untitled/services/list_api.dart';
+
 import 'package:untitled/services/model.dart';
 import 'package:untitled/widget/color.dart';
 
@@ -14,7 +16,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int PageIndex = 0;
+  var PageIndex = 0;
+  List<ArteCal> data2 = [];
+  List menu = ["sport", "Technology", "world", "Fan_Music"];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    Data data = Data(news: menu[0]);
+    data.getData().then((e) {
+      data2 = e;
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +66,7 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           setState(() {
                             PageIndex = 0;
+                            menu[0];
                           });
                         },
                         child: NewsMenu(
@@ -107,49 +123,21 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                // SizedBox(height: 30,),
-                // ContainerNews(
-                //   imagenews: "images/1.png",
-                // ),
-                // ContainerNews(
-                //   imagenews: "images/1.png",
-                // ),
-                // ContainerNews(
-                //   imagenews: "images/1.png",
-                // ),
+
                 ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.all(10),
-                  itemCount: menu[PageIndex].length,
+                  itemCount: data2.length,
                   itemBuilder: (_, index) {
                     return ContainerNews(
-
-                      imagenews: menu[PageIndex][index][0],
+                      imagenews: data2[index].image,
+                      title: data2[index].title,
+                      date: data2[index].date,
+                      content: data2[index].content,
                     );
                   },
                 ),
-
-                // FutureBuilder<ArteCal>(
-                //   future: Post,
-                //   builder: (context, snapshot) {
-                //     if (snapshot.hasData ==200) {
-                //       return ListView.builder(
-                //         shrinkWrap: true,
-                //         physics: NeverScrollableScrollPhysics(),
-                //         padding: EdgeInsets.all(10),
-                //         itemCount: menu[PageIndex].length,
-                //         itemBuilder: (_, index) {
-                //           return ContainerNews(
-                //             imagenews: (snapshot.data.image),
-                //           );
-                //         },
-                //       );
-                //     } else if (snapshot.hasData) {
-                //       return CircularProgressIndicator();
-                //     }
-                //   },
-                // ),
               ],
             ),
           )

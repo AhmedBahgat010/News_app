@@ -1,36 +1,23 @@
-// import 'dart:convert';
-//
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
-// import 'package:http/http.dart' as http;
-//
-// import 'package:untitled/services/model.dart';
-//
-// class Data extends StatefulWidget {
-//   @override
-//   _DataState createState() => _DataState();
-// }
-//
-// class _DataState extends State<Data> {
-//   Future<ArteCal> Post;
-//
-//   @override
-//   initState() {
-//     super.initState();
-//   Post = getData();
-//   }
-//
-//   Future<ArteCal> getData() async {
-//     http.Response url = await http.get("url");
-//     if (url.statusCode == 200) {
-//       return ArteCal.fromJson(json.decode(url.body));
-//     } else {
-//       print("error");
-//     }
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Data();
-//   }
-// }
+import 'dart:convert';
+import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
+import 'package:untitled/services/model.dart';
+
+class Data {
+  final String news;
+  Data({@required this.news});
+  Future<List<ArteCal>> getData() async {
+    List<ArteCal> data = [];
+    http.Response url = await http.get(
+        "https://newsapi.org/v2/everything?q=$news&from=2021-07-25&sortBy=publishedAt&apiKey=67bbf336695e494887aa8c82c905d5cf");
+    if (url.statusCode == 200) {
+      List location_data = json.decode(url.body)["articles"];
+      data = location_data.map((e) {
+        return ArteCal.fromJson(e);
+      }).toList();
+    } else {
+      print("error");
+    }
+    return data;
+  }
+}
