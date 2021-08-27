@@ -24,8 +24,8 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
 
-    Data data = Data(news: menu[0]);
-    data.getData().then((e) {
+    Data data = Data();
+    data.getData(menu[0]).then((e) {
       data2 = e;
       setState(() {});
     });
@@ -67,6 +67,10 @@ class _HomePageState extends State<HomePage> {
                           setState(() {
                             PageIndex = 0;
                             menu[0];
+                            Data().getData(menu[0]).then((e) {
+                              data2 = e;
+                              setState(() {});
+                            });
                           });
                         },
                         child: NewsMenu(
@@ -82,6 +86,10 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           setState(() {
                             PageIndex = 1;
+                            Data().getData(menu[1]).then((e) {
+                              data2 = e;
+                              setState(() {});
+                            });
                           });
                         },
                         child: NewsMenu(
@@ -97,6 +105,10 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           setState(() {
                             PageIndex = 2;
+                            Data().getData(menu[2]).then((e) {
+                              data2 = e;
+                              setState(() {});
+                            });
                           });
                         },
                         child: NewsMenu(
@@ -112,6 +124,10 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           setState(() {
                             PageIndex = 3;
+                            Data().getData(menu[3]).then((e) {
+                              data2 = e;
+                              setState(() {});
+                            });
                           });
                         },
                         child: NewsMenu(
